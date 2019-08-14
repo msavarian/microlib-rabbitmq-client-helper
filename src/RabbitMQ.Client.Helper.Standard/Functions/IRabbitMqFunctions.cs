@@ -8,6 +8,6 @@ namespace RabbitMQ.Client.Helper.Standard.Functions
         IConnection CreateConnection(ConnectionInputModel connectionInputModel);
         bool CreateAndBindExchange(IConnection connection, ExchangeModel exchangeModel, string routeKey, QueueModel queueModel);
         bool SendMessage(IConnection connection, string exchangeName, string routeKey,string message);
-        IList<string> ReciveMessages(IConnection connection, string queueName);
+        IEnumerable<string> ReciveMessages(IConnection connection, string queueName);
     }
 }
