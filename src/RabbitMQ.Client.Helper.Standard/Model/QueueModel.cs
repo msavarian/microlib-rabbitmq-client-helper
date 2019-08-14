@@ -1,4 +1,4 @@
-﻿namespace RabbitMQ.Client.Helper.Model
+﻿namespace RabbitMQ.Client.Helper.Standard.Model
 {
     public class QueueModel
     {

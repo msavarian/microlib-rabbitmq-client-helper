@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using RabbitMQ.Client.Helper.Model;
+using RabbitMQ.Client.Helper.Standard.Model;
 
-namespace RabbitMQ.Client.Helper.Functions
+namespace RabbitMQ.Client.Helper.Standard.Functions
 {
     public class RabbitMqFunctions : IRabbitMqFunctions
     {
