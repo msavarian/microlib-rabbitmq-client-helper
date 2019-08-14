@@ -59,8 +59,23 @@ namespace RabbitMQ.Client.Helper.Standard.Functions
             }
         }
 
-        public IEnumerable<string> ReciveMessages(IConnection connection, string queueName, int msgCount=1)
+        public uint GetMessageCount(IConnection connection, string queueName)
         {
+            IModel _model;
+            _model = connection.CreateModel();
+
+            var q = CreateQueueDeclare(_model, new QueueModel
+            {
+                QueueName = queueName
+            });
+            return q.MessageCount;
+        }
+
+        public IEnumerable<string> ReciveMessages(IConnection connection, string queueName, uint msgCount=0)
+        {
+            if (msgCount == 0)
+                msgCount = GetMessageCount(connection, queueName);
+
             List<string> output = new List<string>();
             IModel _model = connection.CreateModel();
 
@@ -75,5 +90,20 @@ namespace RabbitMQ.Client.Helper.Standard.Functions
             }
             return output;
         }
+
+
+
+
+        #region "Helper"
+        private QueueDeclareOk CreateQueueDeclare(IModel model, QueueModel queueModel)
+        {
+            return model.QueueDeclare(
+                queueModel.QueueName,
+                queueModel.Durable,
+                queueModel.Exclusive,
+                queueModel.AutoDelete,
+                queueModel.Arguments);
+        }
+        #endregion
     }
 }
