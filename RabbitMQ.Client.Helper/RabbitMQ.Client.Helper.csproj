@@ -2,6 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Mahmoud Savarian</Authors>
+    <Description>It's an wrapper on RabbitMQ.Client library for some common usecases</Description>
+    <PackageTags>RabbitMQ dotnet-core</PackageTags>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="RabbitMQ.Client" Version="5.1.0" />
+  </ItemGroup>
 
 </Project>
