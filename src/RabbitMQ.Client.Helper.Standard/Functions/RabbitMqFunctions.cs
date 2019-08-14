@@ -14,11 +14,11 @@ namespace RabbitMQ.Client.Helper.Standard.Functions
             _factory = new ConnectionFactory
             {
                 HostName = connectionInputModel.ServerIP,
-                Port = connectionInputModel.ServerPort,
+                //Port = connectionInputModel.ServerPort,
                 UserName = connectionInputModel.Username,
                 Password = connectionInputModel.Password
             };
-            _connection = _factory.CreateConnection();// connectionInputModel.ClientName);
+            _connection = _factory.CreateConnection(connectionInputModel.ClientName);
             return _connection;
         }
 

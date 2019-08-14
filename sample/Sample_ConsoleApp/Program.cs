@@ -42,7 +42,7 @@ namespace Sample_ConsoleApp
 
 
             Console.WriteLine("Press enter to exit...");
-            Console.ReadLine();
+            Console.ReadKey();
         }
 
 
