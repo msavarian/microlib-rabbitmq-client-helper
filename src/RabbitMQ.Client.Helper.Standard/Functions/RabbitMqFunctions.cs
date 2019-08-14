@@ -59,20 +59,13 @@ namespace RabbitMQ.Client.Helper.Standard.Functions
             }
         }
 
-        public IEnumerable<string> ReciveMessages(IConnection connection, QueueModel queueModel, int msgCount=1)
+        public IEnumerable<string> ReciveMessages(IConnection connection, string queueName, int msgCount=1)
         {
             List<string> output = new List<string>();
             IModel _model = connection.CreateModel();
 
-            var q = _model.QueueDeclare(
-                queueModel.QueueName,
-                queueModel.Durable,
-                queueModel.Exclusive,
-                queueModel.AutoDelete,
-                queueModel.Arguments);
-
-            var consumer = new QueueingBasicConsumer(q);
-            q.BasicConsume(queueModel.QueueName, true, consumer);
+            var consumer = new QueueingBasicConsumer(_model);
+            _model.BasicConsume(queueName, true, consumer);
 
             var count = 0;
             while (count < msgCount)
