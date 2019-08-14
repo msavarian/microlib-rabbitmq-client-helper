@@ -5,9 +5,9 @@ namespace RabbitMQ.Client.Helper.Standard.Functions
 {
     public interface IRabbitMqFunctions
     {
-        bool CreateConnection(ConnectionInputModel connectionInputModel);
+        IConnection CreateConnection(ConnectionInputModel connectionInputModel);
         bool CreateAndBindExchange(IConnection connection, ExchangeModel exchangeModel, string routeKey, QueueModel queueModel);
-        bool SendMessage(IConnection connection, string message, string routeKey);
+        bool SendMessage(IConnection connection, string exchangeName, string routeKey,string message);
         IList<string> ReciveMessages(IConnection connection, string queueName);
     }
 }

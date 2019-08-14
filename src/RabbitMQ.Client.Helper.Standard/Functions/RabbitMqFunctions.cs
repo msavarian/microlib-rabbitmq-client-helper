@@ -12,7 +12,7 @@ namespace RabbitMQ.Client.Helper.Standard.Functions
             throw new NotImplementedException();
         }
 
-        public bool CreateConnection(ConnectionInputModel connectionInputModel)
+        public IConnection CreateConnection(ConnectionInputModel connectionInputModel)
         {
             throw new NotImplementedException();
         }
@@ -22,7 +22,7 @@ namespace RabbitMQ.Client.Helper.Standard.Functions
             throw new NotImplementedException();
         }
 
-        public bool SendMessage(IConnection connection, string message, string routeKey)
+        public bool SendMessage(IConnection connection, string exchangeName, string routeKey, string message)
         {
             throw new NotImplementedException();
         }
