@@ -6,24 +6,25 @@ namespace Sample_ConsoleApp
 {
     class Program
     {
+        static RabbitMqFunctions rabbitMQFunctions;
         static void Main(string[] args)
         {
-            var rabbitMQFunctions = new RabbitMqFunctions();
+            rabbitMQFunctions = new RabbitMqFunctions();
 
             // Init connection to rabbitMQ
-            RabbitMQ.Client.IConnection _connection = InitConnection(rabbitMQFunctions);
+            RabbitMQ.Client.IConnection _connection = InitConnection();
 
             // Create a Direct Exchange
-            CreateAndBind_DirectExchange(rabbitMQFunctions, _connection);
+            CreateAndBind_DirectExchange(_connection);
 
             // Create a fanout Exchange
-            CreateAndBind_FanoutExchange(rabbitMQFunctions, _connection);
+            CreateAndBind_FanoutExchange(_connection);
 
             // Create a Header Excahnge
-            CreateAndBind_HeadersExchange(rabbitMQFunctions, _connection);
+            CreateAndBind_HeadersExchange(_connection);
 
             // Create a Topic Exchange
-            CreateAndBind_TopicExchange(rabbitMQFunctions, _connection);
+            CreateAndBind_TopicExchange(_connection);
 
 
             // Send Message to Exchanges
@@ -45,12 +46,13 @@ namespace Sample_ConsoleApp
         }
 
 
-        private static RabbitMQ.Client.IConnection InitConnection(RabbitMqFunctions rabbitMQFunctions)
+        private static RabbitMQ.Client.IConnection InitConnection()
         {
             return rabbitMQFunctions.CreateConnection(
                 new ConnectionInputModel
                 {
-                    ServerIP = "127.0.0.1",
+                    ClientName="ConsoleSampleApp1000",
+                    ServerIP = "localhost",
                     ServerPort = 15672,
                     Username = "guest",
                     Password = "guest"
@@ -59,7 +61,7 @@ namespace Sample_ConsoleApp
 
 
         #region "Create Different types of Exchanges"
-        private static void CreateAndBind_DirectExchange(RabbitMqFunctions rabbitMQFunctions, RabbitMQ.Client.IConnection _connection)
+        private static void CreateAndBind_DirectExchange(RabbitMQ.Client.IConnection _connection)
         {
             var directExchange1 = rabbitMQFunctions.CreateAndBindExchange(
                             _connection,
@@ -76,7 +78,7 @@ namespace Sample_ConsoleApp
                             );
         }
 
-        private static void CreateAndBind_FanoutExchange(RabbitMqFunctions rabbitMQFunctions, RabbitMQ.Client.IConnection _connection)
+        private static void CreateAndBind_FanoutExchange(RabbitMQ.Client.IConnection _connection)
         {
             var fanoutExchange1 = rabbitMQFunctions.CreateAndBindExchange(
                             _connection,
@@ -92,7 +94,7 @@ namespace Sample_ConsoleApp
                             }
                             );
         }
-        private static void CreateAndBind_HeadersExchange(RabbitMqFunctions rabbitMQFunctions, RabbitMQ.Client.IConnection _connection)
+        private static void CreateAndBind_HeadersExchange(RabbitMQ.Client.IConnection _connection)
         {
             var headresExchange1 = rabbitMQFunctions.CreateAndBindExchange(
                 _connection,
@@ -108,7 +110,7 @@ namespace Sample_ConsoleApp
                 }
                 );
         }
-        private static void CreateAndBind_TopicExchange(RabbitMqFunctions rabbitMQFunctions, RabbitMQ.Client.IConnection _connection)
+        private static void CreateAndBind_TopicExchange(RabbitMQ.Client.IConnection _connection)
         {
             var topicExchange1 = rabbitMQFunctions.CreateAndBindExchange(
                 _connection,

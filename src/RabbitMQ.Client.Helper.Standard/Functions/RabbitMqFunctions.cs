@@ -18,7 +18,7 @@ namespace RabbitMQ.Client.Helper.Standard.Functions
                 UserName = connectionInputModel.Username,
                 Password = connectionInputModel.Password
             };
-            _connection = _factory.CreateConnection(connectionInputModel.ClientName);
+            _connection = _factory.CreateConnection();// connectionInputModel.ClientName);
             return _connection;
         }
 
