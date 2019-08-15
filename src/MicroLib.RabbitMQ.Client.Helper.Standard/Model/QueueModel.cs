@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace RabbitMQ.Client.Helper.Standard.Model
+namespace MicroLib.RabbitMQ.Client.Helper.Standard.Model
 {
     public class QueueModel
     {

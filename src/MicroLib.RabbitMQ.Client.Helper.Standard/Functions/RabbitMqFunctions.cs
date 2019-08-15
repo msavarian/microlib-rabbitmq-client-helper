@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using RabbitMQ.Client.Helper.Standard.Model;
+using MicroLib.RabbitMQ.Client.Helper.Standard.Model;
+using RabbitMQ.Client;
 
-namespace RabbitMQ.Client.Helper.Standard.Functions
+namespace MicroLib.RabbitMQ.Client.Helper.Standard.Functions
 {
     public class RabbitMqFunctions : IRabbitMqFunctions
     {
@@ -30,9 +31,13 @@ namespace RabbitMQ.Client.Helper.Standard.Functions
 
             try
             {
-                _model.QueueDeclare(queueModel.QueueName, true, false, false, null);
-                _model.ExchangeDeclare(exchangeModel.ExchangeName, exchangeModel.ExchangeType.ToString().ToLower(), true, false, null);
-                _model.QueueBind(queueModel.QueueName, exchangeModel.ExchangeName, routeKey);
+                CreateQueueDeclare(_model, queueModel);
+                CreateExchangeDeclare(_model, exchangeModel);
+
+                _model.QueueBind(
+                    queueModel.QueueName, 
+                    exchangeModel.ExchangeName, 
+                    routeKey);
                 return true;
             }
             catch (Exception ex)
@@ -50,6 +55,7 @@ namespace RabbitMQ.Client.Helper.Standard.Functions
             {
                 var properties = _model.CreateBasicProperties();
                 properties.Persistent = true;
+
                 _model.BasicPublish(exchangeName, routeKey, properties, Encoding.ASCII.GetBytes(message));
                 return true;
             }
@@ -103,6 +109,15 @@ namespace RabbitMQ.Client.Helper.Standard.Functions
                 queueModel.Exclusive,
                 queueModel.AutoDelete,
                 queueModel.Arguments);
+        }
+        private void CreateExchangeDeclare(IModel model, ExchangeModel exchangeModel)
+        {
+            model.ExchangeDeclare(
+                exchangeModel.ExchangeName,
+                exchangeModel.ExchangeType.ToString().ToLower(),
+                exchangeModel.Durable,
+                exchangeModel.AutoDelete,
+                exchangeModel.Arguments);
         }
         #endregion
     }

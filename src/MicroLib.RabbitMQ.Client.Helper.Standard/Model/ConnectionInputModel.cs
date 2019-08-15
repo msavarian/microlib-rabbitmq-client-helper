@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace RabbitMQ.Client.Helper.Standard.Model
+namespace MicroLib.RabbitMQ.Client.Helper.Standard.Model
 {
     public class ConnectionInputModel
     {

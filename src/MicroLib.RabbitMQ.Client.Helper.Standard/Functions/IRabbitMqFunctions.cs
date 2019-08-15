@@ -1,7 +1,8 @@
-﻿using RabbitMQ.Client.Helper.Standard.Model;
+﻿using MicroLib.RabbitMQ.Client.Helper.Standard.Model;
+using RabbitMQ.Client;
 using System.Collections.Generic;
 
-namespace RabbitMQ.Client.Helper.Standard.Functions
+namespace MicroLib.RabbitMQ.Client.Helper.Standard.Functions
 {
     public interface IRabbitMqFunctions
     {

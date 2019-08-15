@@ -1,5 +1,5 @@
-﻿using RabbitMQ.Client.Helper.Standard.Functions;
-using RabbitMQ.Client.Helper.Standard.Model;
+﻿using MicroLib.RabbitMQ.Client.Helper.Standard.Functions;
+using MicroLib.RabbitMQ.Client.Helper.Standard.Model;
 using System;
 
 namespace Sample_ConsoleApp

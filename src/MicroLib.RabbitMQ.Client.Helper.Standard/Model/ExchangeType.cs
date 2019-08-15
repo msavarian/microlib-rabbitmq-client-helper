@@ -1,4 +1,4 @@
-﻿namespace RabbitMQ.Client.Helper.Standard.Model
+﻿namespace MicroLib.RabbitMQ.Client.Helper.Standard.Model
 {
     /// <summary>
     //public const string Direct = "direct";
