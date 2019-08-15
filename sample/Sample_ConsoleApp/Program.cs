@@ -12,7 +12,7 @@ namespace Sample_ConsoleApp
             rabbitMQFunctions = new RabbitMqFunctions();
 
             // Init connection to rabbitMQ
-            RabbitMQ.Client.IConnection _connection = InitConnection();
+            var _connection = InitConnection();
 
             // Create a Direct Exchange
             CreateAndBind_DirectExchange(_connection);
