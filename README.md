@@ -18,13 +18,21 @@ Install-Package MicroLib.RabbitMQ.Client.Helper.Standard
 ```
     class Program
     {
-        static RabbitMqFunctions rabbitMQFunctions;
+        static RabbitMqFunctions _rabbitMQFunctions;
         static void Main(string[] args)
         {
-            rabbitMQFunctions = new RabbitMqFunctions();
+            _rabbitMQFunctions = new RabbitMqFunctions();
 
             // Init connection to rabbitMQ
-            var _connection = InitConnection();
+            var _connection = _rabbitMQFunctions.CreateConnection(
+                new ConnectionInputModel
+                {
+                    ClientName="ConsoleSampleApp1000",
+                    ServerIP = "localhost",
+                    ServerPort = 15672,
+                    Username = "guest",
+                    Password = "guest"
+                });
             ...
             ...
             ...            
