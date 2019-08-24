@@ -6,40 +6,42 @@ namespace Sample_ConsoleApp
 {
     class Program
     {
-        static RabbitMqFunctions rabbitMQFunctions;
+        static RabbitMqDefinationFunctions rabbitMqDefinationFunctions;
+        static RabbitMqMessagesFunctions rabbitMqMessagesFunctions;
         static void Main(string[] args)
         {
-            rabbitMQFunctions = new RabbitMqFunctions();
+            rabbitMqDefinationFunctions = new RabbitMqDefinationFunctions();
+            rabbitMqMessagesFunctions = new RabbitMqMessagesFunctions();
 
             // Init connection to rabbitMQ
-            var _connection = InitConnection();
+            var RabbitMqModel = InitModel();
 
             // Create a Direct Exchange
-            CreateAndBind_DirectExchange(_connection);
+            CreateAndBind_DirectExchange(RabbitMqModel);
 
             // Create a fanout Exchange
-            CreateAndBind_FanoutExchange(_connection);
+            CreateAndBind_FanoutExchange(RabbitMqModel);
 
             // Create a Header Excahnge
-            CreateAndBind_HeadersExchange(_connection);
+            CreateAndBind_HeadersExchange(RabbitMqModel);
 
             // Create a Topic Exchange
-            CreateAndBind_TopicExchange(_connection);
+            CreateAndBind_TopicExchange(RabbitMqModel);
 
 
             // Send Message to Exchanges
-            rabbitMQFunctions.SendMessage(_connection, "directExchange1", "directExchange1routeKey1", "msg1");
-            rabbitMQFunctions.SendMessage(_connection, "fanoutExchange1", "fanoutExchange1routeKey1", "msg1");
-            rabbitMQFunctions.SendMessage(_connection, "headresExchange1", "headresExchange1routeKey1", "msg1");
-            rabbitMQFunctions.SendMessage(_connection, "topicExchange1", "topicExchange1routeKey1", "msg1");
-            rabbitMQFunctions.SendMessage(_connection, "topicExchange1", "topicExchange1routeKey1", new { a= "asdasd", b="adsasdasd" });
+            rabbitMqMessagesFunctions.SendMessage(RabbitMqModel, "directExchange1", "directExchange1routeKey1", "msg1");
+            rabbitMqMessagesFunctions.SendMessage(RabbitMqModel, "fanoutExchange1", "fanoutExchange1routeKey1", "msg1");
+            rabbitMqMessagesFunctions.SendMessage(RabbitMqModel, "headresExchange1", "headresExchange1routeKey1", "msg1");
+            rabbitMqMessagesFunctions.SendMessage(RabbitMqModel, "topicExchange1", "topicExchange1routeKey1", "msg1");
+            rabbitMqMessagesFunctions.SendMessage(RabbitMqModel, "topicExchange1", "topicExchange1routeKey1", new { a= "asdasd", b="adsasdasd" });
 
 
             // Recive Messages from Exchanges
-            var queue1Messages = rabbitMQFunctions.ReciveMessages(_connection, "queue1");
-            var queue2Messages = rabbitMQFunctions.ReciveMessages(_connection, "queue2");
-            var queue3Messages = rabbitMQFunctions.ReciveMessages(_connection, "queue3");
-            var queue4Messages = rabbitMQFunctions.ReciveMessages(_connection, "queue4");
+            var queue1Messages = rabbitMqMessagesFunctions.ReciveMessages(RabbitMqModel, "queue1");
+            var queue2Messages = rabbitMqMessagesFunctions.ReciveMessages(RabbitMqModel, "queue2");
+            var queue3Messages = rabbitMqMessagesFunctions.ReciveMessages(RabbitMqModel, "queue3");
+            var queue4Messages = rabbitMqMessagesFunctions.ReciveMessages(RabbitMqModel, "queue4");
 
 
             Console.WriteLine("Press enter to exit...");
@@ -47,9 +49,9 @@ namespace Sample_ConsoleApp
         }
 
 
-        private static RabbitMQ.Client.IConnection InitConnection()
+        private static RabbitMQ.Client.IModel InitModel()
         {
-            return rabbitMQFunctions.CreateConnection(
+            return rabbitMqDefinationFunctions.GetModelFromConnection(
                 new ConnectionInputModel
                 {
                     ClientName="ConsoleSampleApp1000",
@@ -62,10 +64,10 @@ namespace Sample_ConsoleApp
 
 
         #region "Create Different types of Exchanges"
-        private static void CreateAndBind_DirectExchange(RabbitMQ.Client.IConnection _connection)
+        private static void CreateAndBind_DirectExchange(RabbitMQ.Client.IModel RabbitMqModel)
         {
-            var directExchange1 = rabbitMQFunctions.CreateAndBindExchange(
-                            _connection,
+            var directExchange1 = rabbitMqDefinationFunctions.CreateAndBindExchange(
+                            RabbitMqModel,
                             new ExchangeModel
                             {
                                 ExchangeName = "directExchange1",
@@ -79,10 +81,10 @@ namespace Sample_ConsoleApp
                             );
         }
 
-        private static void CreateAndBind_FanoutExchange(RabbitMQ.Client.IConnection _connection)
+        private static void CreateAndBind_FanoutExchange(RabbitMQ.Client.IModel RabbitMqModel)
         {
-            var fanoutExchange1 = rabbitMQFunctions.CreateAndBindExchange(
-                            _connection,
+            var fanoutExchange1 = rabbitMqDefinationFunctions.CreateAndBindExchange(
+                            RabbitMqModel,
                             new ExchangeModel
                             {
                                 ExchangeName = "fanoutExchange1",
@@ -95,10 +97,10 @@ namespace Sample_ConsoleApp
                             }
                             );
         }
-        private static void CreateAndBind_HeadersExchange(RabbitMQ.Client.IConnection _connection)
+        private static void CreateAndBind_HeadersExchange(RabbitMQ.Client.IModel RabbitMqModel)
         {
-            var headresExchange1 = rabbitMQFunctions.CreateAndBindExchange(
-                _connection,
+            var headresExchange1 = rabbitMqDefinationFunctions.CreateAndBindExchange(
+                RabbitMqModel,
                 new ExchangeModel
                 {
                     ExchangeName = "headresExchange1",
@@ -111,10 +113,10 @@ namespace Sample_ConsoleApp
                 }
                 );
         }
-        private static void CreateAndBind_TopicExchange(RabbitMQ.Client.IConnection _connection)
+        private static void CreateAndBind_TopicExchange(RabbitMQ.Client.IModel RabbitMqModel)
         {
-            var topicExchange1 = rabbitMQFunctions.CreateAndBindExchange(
-                _connection,
+            var topicExchange1 = rabbitMqDefinationFunctions.CreateAndBindExchange(
+                RabbitMqModel,
                 new ExchangeModel
                 {
                     ExchangeName = "topicExchange1",
