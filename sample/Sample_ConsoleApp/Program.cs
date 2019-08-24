@@ -32,6 +32,7 @@ namespace Sample_ConsoleApp
             rabbitMQFunctions.SendMessage(_connection, "fanoutExchange1", "fanoutExchange1routeKey1", "msg1");
             rabbitMQFunctions.SendMessage(_connection, "headresExchange1", "headresExchange1routeKey1", "msg1");
             rabbitMQFunctions.SendMessage(_connection, "topicExchange1", "topicExchange1routeKey1", "msg1");
+            rabbitMQFunctions.SendMessage(_connection, "topicExchange1", "topicExchange1routeKey1", new { a= "asdasd", b="adsasdasd" });
 
 
             // Recive Messages from Exchanges
