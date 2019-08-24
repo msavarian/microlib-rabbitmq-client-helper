@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using MicroLib.RabbitMQ.Client.Helper.Standard.Model;
+using Newtonsoft.Json;
 using RabbitMQ.Client;
 
 namespace MicroLib.RabbitMQ.Client.Helper.Standard.Functions
@@ -46,6 +47,27 @@ namespace MicroLib.RabbitMQ.Client.Helper.Standard.Functions
             }
         }
 
+        /// <summary>
+        /// Serialize the value and then send result json
+        /// </summary>
+        /// <param name="connection"></param>
+        /// <param name="exchangeName"></param>
+        /// <param name="routeKey"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public bool SendMessage(IConnection connection, string exchangeName, string routeKey, object value)
+        {
+            return SendMessage(connection, exchangeName, routeKey, JsonConvert.SerializeObject(value));
+        }
+
+        /// <summary>
+        /// send plain text
+        /// </summary>
+        /// <param name="connection"></param>
+        /// <param name="exchangeName"></param>
+        /// <param name="routeKey"></param>
+        /// <param name="message"></param>
+        /// <returns></returns>
         public bool SendMessage(IConnection connection, string exchangeName, string routeKey, string message)
         {
             IModel _model;
@@ -91,7 +113,7 @@ namespace MicroLib.RabbitMQ.Client.Helper.Standard.Functions
             var count = 0;
             while (count < msgCount)
             {
-                output.Add(consumer.Queue.Dequeue().Body.ToString());
+                output.Add(Encoding.ASCII.GetString(consumer.Queue.Dequeue().Body));
                 count++;
             }
             return output;
