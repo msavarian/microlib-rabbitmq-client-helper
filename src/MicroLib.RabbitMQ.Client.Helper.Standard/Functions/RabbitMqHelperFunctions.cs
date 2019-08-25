@@ -5,18 +5,18 @@ namespace MicroLib.RabbitMQ.Client.Helper.Standard.Functions
 {
     public static class RabbitMqHelperFunctions
     {
-        public static QueueDeclareOk CreateQueueDeclare(IModel model, QueueModel queueModel)
+        public static QueueDeclareOk CreateQueueDeclare(IModel channelModel, QueueModel queueModel)
         {
-            return model.QueueDeclare(
+            return channelModel.QueueDeclare(
                 queueModel.QueueName,
                 queueModel.Durable,
                 queueModel.Exclusive,
                 queueModel.AutoDelete,
                 queueModel.Arguments);
         }
-        public static void CreateExchangeDeclare(IModel model, ExchangeModel exchangeModel)
+        public static void CreateExchangeDeclare(IModel channelModel, ExchangeModel exchangeModel)
         {
-            model.ExchangeDeclare(
+            channelModel.ExchangeDeclare(
                 exchangeModel.ExchangeName,
                 exchangeModel.ExchangeType.ToString().ToLower(),
                 exchangeModel.Durable,

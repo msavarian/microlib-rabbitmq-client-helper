@@ -8,6 +8,6 @@ namespace MicroLib.RabbitMQ.Client.Helper.Standard.Functions
         IConnection CreateConnection(ConnectionInputModel connectionInputModel);
         IModel GetModelFromConnection(IConnection connection);
         IModel GetModelFromConnection(ConnectionInputModel connectionInputModel);
-        bool CreateAndBindExchange(IModel model, ExchangeModel exchangeModel, string routeKey, QueueModel queueModel);
+        bool CreateAndBindExchange(IModel channelModel, ExchangeModel exchangeModel, string routeKey, QueueModel queueModel);
     }
 }

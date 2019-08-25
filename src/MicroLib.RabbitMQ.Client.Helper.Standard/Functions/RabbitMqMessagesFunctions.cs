@@ -18,9 +18,9 @@ namespace MicroLib.RabbitMQ.Client.Helper.Standard.Functions
         /// <param name="routeKey"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public bool SendMessage(IModel model, string exchangeName, string routeKey, object value)
+        public bool SendMessage(IModel channelModel, string exchangeName, string routeKey, object value)
         {
-            return SendMessage(model, exchangeName, routeKey, JsonConvert.SerializeObject(value));
+            return SendMessage(channelModel, exchangeName, routeKey, JsonConvert.SerializeObject(value));
         }
 
         /// <summary>
@@ -31,14 +31,14 @@ namespace MicroLib.RabbitMQ.Client.Helper.Standard.Functions
         /// <param name="routeKey"></param>
         /// <param name="message"></param>
         /// <returns></returns>
-        public bool SendMessage(IModel model, string exchangeName, string routeKey, string message)
+        public bool SendMessage(IModel channelModel, string exchangeName, string routeKey, string message)
         {
             try
             {
-                var properties = model.CreateBasicProperties();
+                var properties = channelModel.CreateBasicProperties();
                 properties.Persistent = true;
 
-                model.BasicPublish(exchangeName, routeKey, properties, Encoding.ASCII.GetBytes(message));
+                channelModel.BasicPublish(exchangeName, routeKey, properties, Encoding.ASCII.GetBytes(message));
                 return true;
             }
             catch (Exception ex)
@@ -47,24 +47,24 @@ namespace MicroLib.RabbitMQ.Client.Helper.Standard.Functions
             }
         }
 
-        public uint GetMessageCount(IModel model, string queueName)
+        public uint GetMessageCount(IModel channelModel, string queueName)
         {
-            var q = RabbitMqHelperFunctions.CreateQueueDeclare(model, new QueueModel
+            var q = RabbitMqHelperFunctions.CreateQueueDeclare(channelModel, new QueueModel
             {
                 QueueName = queueName
             });
             return q.MessageCount;
         }
 
-        public IEnumerable<string> ReciveMessages(IModel model, string queueName, uint msgCount = 0)
+        public IEnumerable<string> ReciveMessages(IModel channelModel, string queueName, uint msgCount = 0)
         {
             if (msgCount == 0)
-                msgCount = GetMessageCount(model, queueName);
+                msgCount = GetMessageCount(channelModel, queueName);
 
             List<string> output = new List<string>();
 
-            var consumer = new QueueingBasicConsumer(model);
-            model.BasicConsume(queueName, true, consumer);
+            var consumer = new QueueingBasicConsumer(channelModel);
+            channelModel.BasicConsume(queueName, true, consumer);
 
             var count = 0;
             while (count < msgCount)

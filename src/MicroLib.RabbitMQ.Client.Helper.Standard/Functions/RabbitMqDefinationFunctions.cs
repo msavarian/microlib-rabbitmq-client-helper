@@ -32,14 +32,14 @@ namespace MicroLib.RabbitMQ.Client.Helper.Standard.Functions
         }
 
 
-        public bool CreateAndBindExchange(IModel model, ExchangeModel exchangeModel, string routeKey, QueueModel queueModel)
+        public bool CreateAndBindExchange(IModel channelModel, ExchangeModel exchangeModel, string routeKey, QueueModel queueModel)
         {
             try
             {
-                RabbitMqHelperFunctions.CreateQueueDeclare(model, queueModel);
-                RabbitMqHelperFunctions.CreateExchangeDeclare(model, exchangeModel);
+                RabbitMqHelperFunctions.CreateQueueDeclare(channelModel, queueModel);
+                RabbitMqHelperFunctions.CreateExchangeDeclare(channelModel, exchangeModel);
 
-                model.QueueBind(
+                channelModel.QueueBind(
                     queueModel.QueueName,
                     exchangeModel.ExchangeName,
                     routeKey);
