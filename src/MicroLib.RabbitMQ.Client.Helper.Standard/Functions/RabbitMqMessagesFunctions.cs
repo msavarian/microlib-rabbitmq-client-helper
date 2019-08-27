@@ -7,7 +7,7 @@ using RabbitMQ.Client;
 
 namespace MicroLib.RabbitMQ.Client.Helper.Standard.Functions
 {
-    public class RabbitMqMessagesFunctions : IRabbitMqMessagesFunctions
+    public class RabbitMqMessagesFunctions : IRabbitMqMessagesFunctions, RabbitMqHelperFunctions
     {
 
         /// <summary>
@@ -35,10 +35,10 @@ namespace MicroLib.RabbitMQ.Client.Helper.Standard.Functions
         {
             try
             {
-                var properties = channelModel.CreateBasicProperties();
-                properties.Persistent = true;
-
-                channelModel.BasicPublish(exchangeName, routeKey, properties, Encoding.ASCII.GetBytes(message));
+                //var properties = channelModel.CreateBasicProperties();
+                //properties.Persistent = true;
+                
+                channelModel.BasicPublish(exchangeName, routeKey, null, Encoding.ASCII.GetBytes(message));
                 return true;
             }
             catch (Exception ex)
@@ -49,7 +49,7 @@ namespace MicroLib.RabbitMQ.Client.Helper.Standard.Functions
 
         public uint GetMessageCount(IModel channelModel, string queueName)
         {
-            var q = RabbitMqHelperFunctions.CreateQueueDeclare(channelModel, new QueueModel
+            var q = CreateQueueDeclare(channelModel, new QueueModel
             {
                 QueueName = queueName
             });
@@ -63,13 +63,16 @@ namespace MicroLib.RabbitMQ.Client.Helper.Standard.Functions
 
             List<string> output = new List<string>();
 
-            var consumer = new QueueingBasicConsumer(channelModel);
-            channelModel.BasicConsume(queueName, true, consumer);
+            //var consumer = new QueueingBasicConsumer(channelModel);            
+            //channelModel.BasicConsume(queueName, true, consumer);
+            var result=channelModel.BasicGet(queueName, true);
 
             var count = 0;
             while (count < msgCount)
             {
-                output.Add(Encoding.ASCII.GetString(consumer.Queue.Dequeue().Body));
+                //output.Add(Encoding.ASCII.GetString(consumer.Queue.Dequeue().Body));
+                output.Add(Encoding.ASCII.GetString(result.Body));
+
                 count++;
             }
             return output;

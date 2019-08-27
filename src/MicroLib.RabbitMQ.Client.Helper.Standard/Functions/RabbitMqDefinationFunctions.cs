@@ -4,7 +4,7 @@ using RabbitMQ.Client;
 
 namespace MicroLib.RabbitMQ.Client.Helper.Standard.Functions
 {
-    public class RabbitMqDefinationFunctions : IRabbitMqDefinationFunctions
+    public class RabbitMqDefinationFunctions : IRabbitMqDefinationFunctions, RabbitMqHelperFunctions
     {
         public IConnection CreateConnection(ConnectionInputModel connectionInputModel)
         {
@@ -36,8 +36,8 @@ namespace MicroLib.RabbitMQ.Client.Helper.Standard.Functions
         {
             try
             {
-                RabbitMqHelperFunctions.CreateQueueDeclare(channelModel, queueModel);
-                RabbitMqHelperFunctions.CreateExchangeDeclare(channelModel, exchangeModel);
+                CreateQueueDeclare(channelModel, queueModel);
+                CreateExchangeDeclare(channelModel, exchangeModel);
 
                 channelModel.QueueBind(
                     queueModel.QueueName,

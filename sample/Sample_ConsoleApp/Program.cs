@@ -15,6 +15,7 @@ namespace Sample_ConsoleApp
 
             // Init connection to rabbitMQ
             var RabbitMqModel = InitModel();
+            var RabbitMqModel2 = InitModel2();
 
             // Create a Direct Exchange
             CreateAndBind_DirectExchange(RabbitMqModel);
@@ -38,14 +39,33 @@ namespace Sample_ConsoleApp
 
 
             // Recive Messages from Exchanges
-            var queue1Messages = rabbitMqMessagesFunctions.ReciveMessages(RabbitMqModel, "queue1");
-            var queue2Messages = rabbitMqMessagesFunctions.ReciveMessages(RabbitMqModel, "queue2");
-            var queue3Messages = rabbitMqMessagesFunctions.ReciveMessages(RabbitMqModel, "queue3");
-            var queue4Messages = rabbitMqMessagesFunctions.ReciveMessages(RabbitMqModel, "queue4");
+            var queue1Messages = rabbitMqMessagesFunctions.ReciveMessages(RabbitMqModel2, "queue1");
+            foreach(var item in queue1Messages)
+                Console.WriteLine(item);
+
+            var queue2Messages = rabbitMqMessagesFunctions.ReciveMessages(RabbitMqModel2, "queue2");
+            foreach (var item in queue2Messages)
+                Console.WriteLine(item);
+
+            var queue3Messages = rabbitMqMessagesFunctions.ReciveMessages(RabbitMqModel2, "queue3");
+            foreach (var item in queue3Messages)
+                Console.WriteLine(item);
+
+            var queue4Messages = rabbitMqMessagesFunctions.ReciveMessages(RabbitMqModel2, "queue4");
+            foreach (var item in queue4Messages)
+                Console.WriteLine(item);
+
+
+            // Send Message to Exchanges
+            rabbitMqMessagesFunctions.SendMessage(RabbitMqModel, "directExchange1", "directExchange1routeKey1", "msg1");
+            rabbitMqMessagesFunctions.SendMessage(RabbitMqModel, "fanoutExchange1", "fanoutExchange1routeKey1", "msg1");
+            rabbitMqMessagesFunctions.SendMessage(RabbitMqModel, "headresExchange1", "headresExchange1routeKey1", "msg1");
+            rabbitMqMessagesFunctions.SendMessage(RabbitMqModel, "topicExchange1", "topicExchange1routeKey1", "msg1");
+            rabbitMqMessagesFunctions.SendMessage(RabbitMqModel, "topicExchange1", "topicExchange1routeKey1", new { a = "asdasd", b = "adsasdasd" });
 
 
             Console.WriteLine("Press enter to exit...");
-            Console.ReadKey();
+            Console.ReadLine();
         }
 
 
@@ -54,7 +74,19 @@ namespace Sample_ConsoleApp
             return rabbitMqDefinationFunctions.GetModelFromConnection(
                 new ConnectionInputModel
                 {
-                    ClientName="ConsoleSampleApp1000",
+                    ClientName = "ConsoleSampleApp1000",
+                    ServerIP = "localhost",
+                    ServerPort = 15672,
+                    Username = "guest",
+                    Password = "guest"
+                });
+        }
+        private static RabbitMQ.Client.IModel InitModel2()
+        {
+            return rabbitMqDefinationFunctions.GetModelFromConnection(
+                new ConnectionInputModel
+                {
+                    ClientName = "ConsoleSampleApp1001",
                     ServerIP = "localhost",
                     ServerPort = 15672,
                     Username = "guest",
@@ -71,12 +103,17 @@ namespace Sample_ConsoleApp
                             new ExchangeModel
                             {
                                 ExchangeName = "directExchange1",
-                                ExchangeType = ExchangeType.Direct
+                                ExchangeType = ExchangeType.Direct,
+                                Durable = true,
+                                AutoDelete = false
                             },
                             "directExchange1routeKey1",
                             new QueueModel
                             {
-                                QueueName = "queue1"
+                                QueueName = "queue1",
+                                Durable=true,
+                                Exclusive=false,
+                                AutoDelete=false
                             }
                             );
         }
