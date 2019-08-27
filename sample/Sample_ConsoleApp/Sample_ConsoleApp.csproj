@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\MicroLib.RabbitMQ.Client.Helper.Standard\MicroLib.RabbitMQ.Client.Helper.Standard.csproj" />
+    <PackageReference Include="MicroLib.RabbitMQ.Client.Helper.Standard" Version="1.0.7" />
   </ItemGroup>
 
 </Project>

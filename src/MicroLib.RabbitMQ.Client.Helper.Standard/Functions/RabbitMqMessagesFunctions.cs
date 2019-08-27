@@ -7,7 +7,7 @@ using RabbitMQ.Client;
 
 namespace MicroLib.RabbitMQ.Client.Helper.Standard.Functions
 {
-    public class RabbitMqMessagesFunctions : IRabbitMqMessagesFunctions, RabbitMqHelperFunctions
+    public class RabbitMqMessagesFunctions : RabbitMqHelperFunctions, IRabbitMqMessagesFunctions
     {
 
         /// <summary>

@@ -4,7 +4,7 @@ using RabbitMQ.Client;
 
 namespace MicroLib.RabbitMQ.Client.Helper.Standard.Functions
 {
-    public class RabbitMqDefinationFunctions : IRabbitMqDefinationFunctions, RabbitMqHelperFunctions
+    public class RabbitMqDefinationFunctions : RabbitMqHelperFunctions, IRabbitMqDefinationFunctions
     {
         public IConnection CreateConnection(ConnectionInputModel connectionInputModel)
         {
